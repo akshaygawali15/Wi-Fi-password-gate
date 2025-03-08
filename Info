@@ -1,0 +1,111 @@
+Here’s an updated BAT file that:
+
+1. Lists all available Wi-Fi networks.
+
+
+2. Shows the currently connected Wi-Fi name.
+
+
+3. Asks the user to enter "1" to display the Wi-Fi password in plain text.
+
+
+
+
+---
+
+Steps to Create the BAT File:
+
+1. Open Notepad.
+
+
+2. Copy and paste the following code:
+
+@echo off
+cls
+echo Scanning for available Wi-Fi networks...
+echo --------------------------------------
+netsh wlan show networks | findstr "SSID"
+echo.
+
+echo Checking currently connected Wi-Fi...
+for /f "tokens=2 delims=:" %%A in ('netsh wlan show interfaces ^| findstr "SSID"') do (
+    set "CONNECTED_WIFI=%%A"
+)
+
+echo Connected Wi-Fi: %CONNECTED_WIFI%
+echo --------------------------------------
+
+echo.
+echo Press 1 to view the Wi-Fi password, or any other key to exit.
+set /p choice="Enter your choice: "
+
+if "%choice%"=="1" (
+    echo.
+    echo Retrieving Wi-Fi password...
+    netsh wlan show profile name=%CONNECTED_WIFI% key=clear | findstr "Key Content"
+) else (
+    echo Exiting...
+)
+
+pause
+
+
+3. Click File → Save As.
+
+
+4. In "Save as type," select All Files.
+
+
+5. Name the file WiFi_Password.bat and save it.
+
+
+6. Run the file as Administrator.
+
+
+
+
+---
+
+Example Output:
+
+Scanning for available Wi-Fi networks...
+--------------------------------------
+SSID 1 : Home_WiFi
+SSID 2 : Office_Network
+SSID 3 : Guest_WiFi
+SSID 4 : Cafe_Hotspot
+SSID 5 : Mobile_Hotspot
+
+Checking currently connected Wi-Fi...
+Connected Wi-Fi: Home_WiFi
+--------------------------------------
+
+Press 1 to view the Wi-Fi password, or any other key to exit.
+Enter your choice: 1
+
+Retrieving Wi-Fi password...
+    Key Content            : MySecretPassword123
+
+Press any key to continue . . .
+
+
+---
+
+How It Works:
+
+1. Displays available Wi-Fi networks.
+
+
+2. Identifies the currently connected Wi-Fi.
+
+
+3. Asks for user input:
+
+If you press 1, it retrieves the Wi-Fi password in plain text.
+
+If you press anything else, the script exits.
+
+
+
+
+Let me know if you need any modifications!
